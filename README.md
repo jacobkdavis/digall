@@ -1,6 +1,8 @@
 # digall
 
-Enhanced dig / dns linux command line utility written in Python
+Enhanced dig / dns command line utility written in Python.
+
+Simple linux command line script to facilitate my common dig tasks, and simplify making a quick overview txt backup of a domain's main dns records.
 
 ```
 usage: digall [-h] [-w] url

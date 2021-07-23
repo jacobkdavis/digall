@@ -1,10 +1,9 @@
-#!/usr/bin/python2
+#!/usr/bin/python3
 
-from urlparse import urlparse
+from urllib.parse import urlparse
 import subprocess
 import datetime
 import argparse
-import whois
 
 filedir="/h/work/dns/"
 
@@ -24,7 +23,7 @@ if url.startswith("http"):
 # build filename for optional export
 filename = url + "." + datetime.datetime.today().strftime('%Y%m%d') + ".txt"
 
-print(url)
+#print(url)
 
 #dig $1 any +noall +answer
 #dig $1 a +noall +answer
@@ -32,19 +31,18 @@ print(url)
 #dig $1 mx +noall +answer
 #dig $1 txt +noall +answer
 
-digcmds = ["any","a","ns","mx","txt"]
+digcmds = ["ns","a","mx","txt","srv","soa"]
 
-output = url
+output = url + " " + datetime.datetime.today().strftime('%Y%m%d %H:%M') + ":\n\n"
 
 for cmd in digcmds:
-    output += subprocess.check_output(["dig",url,cmd,"+noall","+answer"])
+    output += subprocess.check_output(["dig",url,cmd,"+noall","+answer"],).decode("utf-8") 
+    output += "\n"
     
-    print(output)
-    
-    if args.write:
-        print("Writing to: " + filedir + filename)
-        with open(filedir + filename, "w") as text_file:
-            text_file.write(output)
+if args.write:
+    print("Writing to: " + filedir + filename)
+    with open(filedir + filename, "w") as text_file:
+        text_file.write(output)
             
    
-
+print(output)
